@@ -15,21 +15,24 @@ module Nylas
     def each
       return enum_for(:each) unless block_given?
 
-      offset = 0
-      chunk_size = 100
+      offset   = filters[:offset].presence || 0
+      limit    = filters[:limit].presence  || 100
       finished = false
+
       while (!finished) do
-        results = get_model_collection(offset, chunk_size)
+        results = get_model_collection(offset, limit)
+
         results.each { |item|
           yield item
         }
-        offset += results.length
-        finished = results.length < chunk_size
+
+        offset  += results.length
+        finished = results.length <= limit
       end
     end
 
     def count
-      RestClient.get(url, params: @filters.merge(view: 'count')) { |response,request,result|
+      RestClient.get(url, params: filters.merge(view: 'count')) { |response,request,result|
         json = Nylas.interpret_response(result, response)
         return json['count']
       }
