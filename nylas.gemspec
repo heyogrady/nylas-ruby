@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.platform = 'java' if RUBY_PLATFORM[/java/] == 'java'
   gem.dependencies.clear
 
-  gem.add_runtime_dependency 'rest-client', '~> 1.6'
+  gem.add_runtime_dependency 'rest-client', '~> 2.0'
   gem.add_runtime_dependency 'yajl-ruby', '>= 1.2.1'
   gem.add_runtime_dependency 'em-http-request', '>= 1.1.3'
 
